@@ -1,0 +1,16 @@
+Externes:
+0: Caché
+1: Visible
+2: Drapeau
+
+Internes:
+0: Rien
+1: 1
+2: 2
+3: 3
+4: 4
+5: 5
+6: 6
+7: 7
+8: 8
+9: Mine
