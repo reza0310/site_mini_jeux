@@ -10,6 +10,8 @@
 
 .uno {
   width: 22.8vw;
+  height: 100%;
+  display: block;
 }
 
 .dos {
@@ -22,6 +24,38 @@
 
 .quatro {
   width: 22.8vw;
+}
+
+.cache {
+	background-color: #999;
+	color: #999;
+	border: 5px solid #999;
+}
+
+.drapeau {
+	background-color: #f00;
+	color: #f00;
+	border: 5px solid #f00;
+}
+
+.revele {
+	border: 5px solid black;
+}
+
+.buton {
+	position: absolute;
+	border: 5px solid blue;
+	right: 5em;
+	height: 5em;
+	width: 5em;
+}
+
+#b1 {
+	bottom: 60%;
+}
+
+#b2 {
+	bottom: 30%;
 }
 
 body {
@@ -61,4 +95,14 @@ ul {
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+table {
+	height: 90vh;
+	width: 80%;
+	table-layout: fixed;
+}
+
+form {
+	height: 100%
 }
