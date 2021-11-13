@@ -7,10 +7,10 @@
 </head>
 <body>
 	<ul>
-	  <li><a href="/jeux/demineur" class="uno">Démineur</a></li>
+	  <li><form action='/jeux/demineur/index.php' method='post'><input type='hidden' name='reinit' value='1'><input type='submit' class='uno' value='Démineur'></form></li>
 	  <li><a href="/jeux/pendu" class="dos">Pendu</a></li>
 	  <li><a href="/jeux/pong" class="tres">Pong</a></li>
-	  <li><a href="/jeux/dinosaure" class="quatro">Dinosaure</a></li>
+	  <li><a href="/jeux/2048" class="quatro">2048</a></li>
 	</ul>
 	<section>
 	%php%

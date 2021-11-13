@@ -46,8 +46,20 @@
 	position: absolute;
 	border: 5px solid blue;
 	right: 5em;
-	height: 5em;
-	width: 5em;
+	height: 10em;
+	width: 10em;
+}
+
+.barre {
+	position: absolute;
+	width: 2em;
+	height: 10em;
+	background-color: #fff;
+	z-index: -1;
+}
+
+#balle {
+	height: 2em;
 }
 
 #b1 {
@@ -55,7 +67,7 @@
 }
 
 #b2 {
-	bottom: 30%;
+	bottom: 20%;
 }
 
 body {
