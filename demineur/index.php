@@ -68,28 +68,28 @@ if (isset($_SESSION["partie"]) != 1) {
 		for ($y = 0; $y < 16; $y++) {
 			if ($cases[$x][$y] == '00') {
 				$cpt = 0;
-				if ($cases[min($x+1, 15)][$y] == '09') {
+				if (($x <= 14) && ($cases[$x+1][$y] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[$x][max($y-1, 0)] == '09') {
+				if (($y >= 1) && ($cases[$x][$y-1] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[$x][min($y+1, 15)] == '09') {
+				if (($y <= 14) && ($cases[$x][$y+1] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[max($x-1, 0)][$y] == '09') {
+				if (($x >= 1) && ($cases[$x-1][$y] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[max($x-1, 0)][max($y-1, 0)] == '09') {
+				if (($x >= 1) && ($y >= 1) && ($cases[$x-1][$y-1] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[min($x+1, 15)][min($y+1, 15)] == '09') {
+				if (($x <= 14) && ($y <= 14) && ($cases[$x+1][$y+1] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[min($x+1, 15)][max($y-1, 0)] == '09') {
+				if (($x <= 14) && ($y >= 1) && ($cases[$x+1][$y-1] == '09')) {
 					$cpt += 1;
 				}
-				if ($cases[max($x-1, 0)][min($y+1, 15)] == '09') {
+				if (($x >= 1) && ($y <= 14) && ($cases[$x-1][$y+1] == '09')) {
 					$cpt += 1;
 				}
 				$cases[$x][$y] = '0'.strval($cpt);
@@ -134,11 +134,9 @@ if (isset($_SESSION["partie"]) != 1) {
 	if (!isset($_POST["changement"])) {
 		$click = $_POST["case"];
 		$query = "SELECT {$click} FROM demineur WHERE id={$_SESSION["partie"]}";
-		$output .= "<script>console.log('Status: {$click}')</script>";
 		$result = $mysqli->query($query);
 		$resultat = mysqli_fetch_array($result);
 		$dessous = $resultat[0][1];
-		$output .= "<script>console.log('Status: {$dessous}')</script>";
 		if ($outil == 1) {
 			$query = "UPDATE demineur SET {$click} = '2{$dessous}' WHERE id={$_SESSION["partie"]}";
 		} else {
@@ -154,6 +152,8 @@ if (isset($_SESSION["partie"]) != 1) {
 	$result = $mysqli->query($query);
 	$resultat = mysqli_fetch_assoc($result);
 	$output .= "<table>";
+	$drapeaux = 0;
+	$caches = 0;
 	$i = 0;
 	$perdu = False;
 	while ($i < 16) {
@@ -162,8 +162,10 @@ if (isset($_SESSION["partie"]) != 1) {
 		while ($k < 16) {
 			$etat = $resultat["$i $k"];
 			if ($etat[0] == '0') {
+				$caches += 1;
 				$output .= "<td class='cache' id='{$i}_{$k}'>0<form action='/jeux/demineur/index.php' method='post'><input type='hidden' name='outil' value='{$outil}'><input type='hidden' name='reinit' value='0'><input type='hidden' name='case' value='`{$i} {$k}`'></form></td>";
 			} elseif ($etat[0] == '2') {
+				$drapeaux += 1;
 				$output .= "<td class='drapeau' id='{$i}_{$k}'>0<form action='/jeux/demineur/index.php' method='post'><input type='hidden' name='outil' value='{$outil}'><input type='hidden' name='reinit' value='0'><input type='hidden' name='case' value='`{$i} {$k}`'></form></td>";
 			} else {
 				if ($etat[1] == '0') {
@@ -196,6 +198,12 @@ if (isset($_SESSION["partie"]) != 1) {
 	}
 	if ($perdu) {
 		$output .= "</table><script>window.alert('Vous avez perdu!!!');</script>";
+		$query = "DELETE FROM demineur WHERE id={$_SESSION["partie"]}";
+		$mysqli->query($query);
+	} else if ($drapeaux == 40 && $caches == 0) {
+		$output .= "</table><script>window.alert('Vous avez gagné!!!');</script>";
+		$query = "DELETE FROM demineur WHERE id={$_SESSION["partie"]}";
+		$mysqli->query($query);
 	}
 	$output .= "</table><script src='script.js'></script>";
 }
